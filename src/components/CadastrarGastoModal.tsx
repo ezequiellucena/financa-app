@@ -69,7 +69,7 @@ export function CadastrarGastoModal({ isOpen, onClose }: CadastrarGastoModalProp
         toast.success('Gasto cadastrado!');
       }
     } else {
-      addGastoVariavel({ nome: nomeGasto, valor: valorTotal });
+      addGastoVariavel({ nome: nomeGasto, valor: valorTotal, createdAt: new Date() });
       toast.success('Gasto cadastrado em "Outros"!');
     }
 
