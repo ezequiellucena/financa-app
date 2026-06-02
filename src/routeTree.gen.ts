@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PoupancaRouteImport } from './routes/poupanca'
+import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
+import { Route as DespesasFixasRouteImport } from './routes/despesas-fixas'
+import { Route as CartoesRouteImport } from './routes/cartoes'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PoupancaRoute = PoupancaRouteImport.update({
+  id: '/poupanca',
+  path: '/poupanca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GastosVariaveisRoute = GastosVariaveisRouteImport.update({
+  id: '/gastos-variaveis',
+  path: '/gastos-variaveis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DespesasFixasRoute = DespesasFixasRouteImport.update({
+  id: '/despesas-fixas',
+  path: '/despesas-fixas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartoesRoute = CartoesRouteImport.update({
+  id: '/cartoes',
+  path: '/cartoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,83 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cartoes': typeof CartoesRoute
+  '/despesas-fixas': typeof DespesasFixasRoute
+  '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/poupanca': typeof PoupancaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cartoes': typeof CartoesRoute
+  '/despesas-fixas': typeof DespesasFixasRoute
+  '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/poupanca': typeof PoupancaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cartoes': typeof CartoesRoute
+  '/despesas-fixas': typeof DespesasFixasRoute
+  '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/poupanca': typeof PoupancaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cartoes'
+    | '/despesas-fixas'
+    | '/gastos-variaveis'
+    | '/poupanca'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/cartoes' | '/despesas-fixas' | '/gastos-variaveis' | '/poupanca'
+  id:
+    | '__root__'
+    | '/'
+    | '/cartoes'
+    | '/despesas-fixas'
+    | '/gastos-variaveis'
+    | '/poupanca'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CartoesRoute: typeof CartoesRoute
+  DespesasFixasRoute: typeof DespesasFixasRoute
+  GastosVariaveisRoute: typeof GastosVariaveisRoute
+  PoupancaRoute: typeof PoupancaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/poupanca': {
+      id: '/poupanca'
+      path: '/poupanca'
+      fullPath: '/poupanca'
+      preLoaderRoute: typeof PoupancaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gastos-variaveis': {
+      id: '/gastos-variaveis'
+      path: '/gastos-variaveis'
+      fullPath: '/gastos-variaveis'
+      preLoaderRoute: typeof GastosVariaveisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/despesas-fixas': {
+      id: '/despesas-fixas'
+      path: '/despesas-fixas'
+      fullPath: '/despesas-fixas'
+      preLoaderRoute: typeof DespesasFixasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cartoes': {
+      id: '/cartoes'
+      path: '/cartoes'
+      fullPath: '/cartoes'
+      preLoaderRoute: typeof CartoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +132,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CartoesRoute: CartoesRoute,
+  DespesasFixasRoute: DespesasFixasRoute,
+  GastosVariaveisRoute: GastosVariaveisRoute,
+  PoupancaRoute: PoupancaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
