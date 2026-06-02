@@ -6,11 +6,28 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { FinanceProvider } from "../context/FinanceContext";
+import { MonthCarousel } from "../components/MonthCarousel";
+import { Toaster } from "sonner";
+import {
+  Home,
+  CreditCard,
+  PiggyBank,
+  DollarSign,
+  BarChart3,
+  CalendarClock,
+  Settings,
+  HelpCircle,
+  Menu,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 
 function NotFoundComponent() {
   return (
@@ -72,16 +89,148 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+const pageTitles: Record<string, string> = {
+  '/': 'Dashboard',
+  '/despesas-fixas': 'Despesas Fixas',
+  '/cartoes': 'Cartões',
+  '/poupanca': 'Poupança',
+  '/gastos-variaveis': 'Gastos Variáveis',
+  '/relatorios': 'Relatórios',
+  '/vencimentos': 'Vencimentos',
+  '/configuracoes': 'Configurações',
+  '/ajuda': 'Ajuda',
+};
+
+function AppLayout() {
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const navItems = [
+    { path: '/', icon: Home, label: 'Início' },
+    { path: '/despesas-fixas', icon: CreditCard, label: 'Despesas' },
+    { path: '/cartoes', icon: CreditCard, label: 'Cartões' },
+    { path: '/poupanca', icon: PiggyBank, label: 'Poupança' },
+    { path: '/gastos-variaveis', icon: DollarSign, label: 'Gastos' },
+    { path: '/relatorios', icon: BarChart3, label: 'Relatórios' },
+    { path: '/vencimentos', icon: CalendarClock, label: 'Vencimentos' },
+    { path: '/configuracoes', icon: Settings, label: 'Configurações' },
+    { path: '/ajuda', icon: HelpCircle, label: 'Ajuda' },
+  ];
+
+  const mainNavItems = navItems.slice(0, 4);
+
+  return (
+    <div className="flex flex-col h-screen bg-background">
+      {/* Floating Menu Button */}
+      <button
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="fixed top-4 left-4 z-30 p-3 bg-card border border-border rounded-2xl shadow-sm hover:bg-accent transition-all duration-200 text-foreground"
+      >
+        {menuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-sidebar-border flex-col z-20">
+        <div className="p-6">
+          <h1 className="text-lg font-bold text-sidebar-foreground tracking-tight">Finanças</h1>
+          <p className="text-xs text-sidebar-foreground/60 mt-1">Controle Financeiro</p>
+        </div>
+        <nav className="flex-1 px-3 space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm ${
+                  isActive
+                    ? 'bg-sidebar-primary text-sidebar-primary-foreground font-medium'
+                    : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                }`}
+              >
+                <Icon size={18} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+      </aside>
+
+      {/* Header with Month Carousel */}
+      <header className="sticky top-0 z-10 md:ml-64">
+        <MonthCarousel pageTitle={pageTitles[location.pathname] || 'Controle Financeiro'} />
+      </header>
+
+      {/* Dropdown Menu Mobile */}
+      {menuOpen && (
+        <div className="md:hidden bg-card border-b border-border shadow-xl z-20 fixed top-16 left-4 right-4 rounded-2xl">
+          <nav className="px-4 py-2">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMenuOpen(false)}
+                  className={`block w-full text-left px-4 py-3 rounded-xl mb-1 transition-all duration-200 ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground font-medium'
+                      : 'text-foreground hover:bg-accent'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto pb-24 md:ml-64">
+        <div className="p-4 max-w-5xl mx-auto">
+          <Outlet />
+        </div>
+      </main>
+
+      {/* Bottom Navigation Mobile */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/90 backdrop-blur-xl border-t border-border px-4 py-3 z-10">
+        <div className="flex justify-around items-center max-w-lg mx-auto">
+          {mainNavItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex flex-col items-center gap-1 p-3 rounded-2xl transition-all duration-200 ${
+                  isActive
+                    ? 'text-primary-foreground bg-primary shadow-md'
+                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                }`}
+              >
+                <Icon size={22} />
+                <span className="text-xs font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </div>
+  );
+}
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Finanças App" },
+      { name: "description", content: "Aplicativo de controle financeiro pessoal" },
+      { property: "og:title", content: "Finanças App" },
+      { property: "og:description", content: "Aplicativo de controle financeiro pessoal" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -101,7 +250,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
@@ -118,8 +267,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <FinanceProvider>
+        <AppLayout />
+        <Toaster position="top-center" richColors />
+      </FinanceProvider>
     </QueryClientProvider>
   );
 }
+
