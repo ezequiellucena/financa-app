@@ -9,13 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VencimentosRouteImport } from './routes/vencimentos'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as PoupancaRouteImport } from './routes/poupanca'
 import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
 import { Route as DespesasFixasRouteImport } from './routes/despesas-fixas'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CartoesRouteImport } from './routes/cartoes'
+import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as IndexRouteImport } from './routes/index'
 
+const VencimentosRoute = VencimentosRouteImport.update({
+  id: '/vencimentos',
+  path: '/vencimentos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RelatoriosRoute = RelatoriosRouteImport.update({
   id: '/relatorios',
   path: '/relatorios',
@@ -36,9 +44,19 @@ const DespesasFixasRoute = DespesasFixasRouteImport.update({
   path: '/despesas-fixas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CartoesRoute = CartoesRouteImport.update({
   id: '/cartoes',
   path: '/cartoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AjudaRoute = AjudaRouteImport.update({
+  id: '/ajuda',
+  path: '/ajuda',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -49,67 +67,95 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/cartoes': typeof CartoesRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/poupanca': typeof PoupancaRoute
   '/relatorios': typeof RelatoriosRoute
+  '/vencimentos': typeof VencimentosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/cartoes': typeof CartoesRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/poupanca': typeof PoupancaRoute
   '/relatorios': typeof RelatoriosRoute
+  '/vencimentos': typeof VencimentosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ajuda': typeof AjudaRoute
   '/cartoes': typeof CartoesRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/poupanca': typeof PoupancaRoute
   '/relatorios': typeof RelatoriosRoute
+  '/vencimentos': typeof VencimentosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ajuda'
     | '/cartoes'
+    | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
     | '/poupanca'
     | '/relatorios'
+    | '/vencimentos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ajuda'
     | '/cartoes'
+    | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
     | '/poupanca'
     | '/relatorios'
+    | '/vencimentos'
   id:
     | '__root__'
     | '/'
+    | '/ajuda'
     | '/cartoes'
+    | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
     | '/poupanca'
     | '/relatorios'
+    | '/vencimentos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AjudaRoute: typeof AjudaRoute
   CartoesRoute: typeof CartoesRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   DespesasFixasRoute: typeof DespesasFixasRoute
   GastosVariaveisRoute: typeof GastosVariaveisRoute
   PoupancaRoute: typeof PoupancaRoute
   RelatoriosRoute: typeof RelatoriosRoute
+  VencimentosRoute: typeof VencimentosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vencimentos': {
+      id: '/vencimentos'
+      path: '/vencimentos'
+      fullPath: '/vencimentos'
+      preLoaderRoute: typeof VencimentosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/relatorios': {
       id: '/relatorios'
       path: '/relatorios'
@@ -138,11 +184,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DespesasFixasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cartoes': {
       id: '/cartoes'
       path: '/cartoes'
       fullPath: '/cartoes'
       preLoaderRoute: typeof CartoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ajuda': {
+      id: '/ajuda'
+      path: '/ajuda'
+      fullPath: '/ajuda'
+      preLoaderRoute: typeof AjudaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -157,11 +217,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AjudaRoute: AjudaRoute,
   CartoesRoute: CartoesRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   DespesasFixasRoute: DespesasFixasRoute,
   GastosVariaveisRoute: GastosVariaveisRoute,
   PoupancaRoute: PoupancaRoute,
   RelatoriosRoute: RelatoriosRoute,
+  VencimentosRoute: VencimentosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
