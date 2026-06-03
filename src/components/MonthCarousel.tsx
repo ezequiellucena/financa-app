@@ -11,10 +11,25 @@ const monthNames = [
 ];
 
 export function MonthCarousel({ pageTitle }: MonthCarouselProps) {
-  const { mesAtualSelecionado, setMesAtualSelecionado, anoSelecionado, setAnoSelecionado } = useFinance();
+  const {
+    mesAtualSelecionado,
+    setMesAtualSelecionado,
+    despesasFixas,
+    cartoes,
+    gastosVariaveis,
+    metas,
+    salario,
+  } = useFinance();
 
   const [ano, mesNum] = mesAtualSelecionado.split('-').map(Number);
   const monthName = monthNames[mesNum - 1];
+
+  const totalDespesas =
+    despesasFixas.reduce((s, d) => s + d.valor, 0) +
+    cartoes.reduce((s, c) => s + c.valor, 0) +
+    gastosVariaveis.reduce((s, g) => s + g.valor, 0) +
+    metas.reduce((s, m) => s + m.valorMensal, 0);
+  const saldo = salario - totalDespesas;
 
   const goToPreviousMonth = () => {
     const newMonth = mesNum === 1 ? 12 : mesNum - 1;
@@ -28,48 +43,41 @@ export function MonthCarousel({ pageTitle }: MonthCarouselProps) {
     setMesAtualSelecionado(`${newYear}-${String(newMonth).padStart(2, '0')}`);
   };
 
-  const changeYear = (delta: number) => {
-    setAnoSelecionado(anoSelecionado + delta);
-    setMesAtualSelecionado(`${anoSelecionado + delta}-01`);
-  };
-
   return (
-    <div className="bg-card/50 backdrop-blur-xl border-b border-border/40 px-4 py-3">
-      <div className="flex items-center justify-between max-w-lg mx-auto">
-        <div>
-          <h1 className="text-sm font-semibold text-foreground">{pageTitle}</h1>
+    <div
+      className="relative px-4 pt-6 pb-10 text-white rounded-b-[2.5rem] overflow-hidden"
+      style={{ background: 'var(--gradient-header)' }}
+    >
+      <div className="max-w-lg mx-auto">
+        <div className="text-center">
+          <h1 className="text-lg font-bold tracking-tight">{pageTitle}</h1>
+          <p className="text-xs text-white/80 mt-1">
+            {monthName} de {ano}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="mt-4 flex items-center gap-2">
           <button
             onClick={goToPreviousMonth}
-            className="p-1.5 rounded-xl hover:bg-secondary/60 transition-colors text-muted-foreground"
+            className="p-1.5 rounded-full text-white/80 hover:bg-white/10 transition-colors"
+            aria-label="Mês anterior"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={20} />
           </button>
-          <div className="text-center min-w-[100px]">
-            <p className="text-sm font-medium text-foreground">{monthName}</p>
-            <p className="text-xs text-muted-foreground">{ano}</p>
+          <div className="flex-1 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 text-center">
+            <p className="text-[10px] uppercase tracking-wider text-white/80">
+              Saldo Disponível
+            </p>
+            <p className="text-2xl font-bold mt-0.5">
+              R$ {saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+            </p>
           </div>
           <button
             onClick={goToNextMonth}
-            className="p-1.5 rounded-xl hover:bg-secondary/60 transition-colors text-muted-foreground"
+            className="p-1.5 rounded-full text-white/80 hover:bg-white/10 transition-colors"
+            aria-label="Próximo mês"
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={20} />
           </button>
-          <div className="flex gap-1 ml-2">
-            <button
-              onClick={() => changeYear(-1)}
-              className="px-2 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/70 transition-colors text-secondary-foreground"
-            >
-              &larr; Ano
-            </button>
-            <button
-              onClick={() => changeYear(1)}
-              className="px-2 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/70 transition-colors text-secondary-foreground"
-            >
-              Ano &rarr;
-            </button>
-          </div>
         </div>
       </div>
     </div>
