@@ -125,7 +125,7 @@ function AppLayout() {
       {/* Floating Menu Button */}
       <button
         onClick={() => setMenuOpen(!menuOpen)}
-        className="fixed top-4 left-4 z-30 p-3 bg-card border border-border rounded-2xl shadow-sm hover:bg-accent transition-all duration-200 text-foreground"
+        className="md:hidden fixed top-4 left-4 z-30 p-2.5 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl text-white hover:bg-white/25 transition-all duration-200"
       >
         {menuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -196,7 +196,7 @@ function AppLayout() {
       </main>
 
       {/* Bottom Navigation Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/90 backdrop-blur-xl border-t border-border px-4 py-3 z-10">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border px-4 py-2 z-10">
         <div className="flex justify-around items-center max-w-lg mx-auto">
           {mainNavItems.map((item) => {
             const Icon = item.icon;
@@ -205,13 +205,13 @@ function AppLayout() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center gap-1 p-3 rounded-2xl transition-all duration-200 ${
+                className={`flex flex-col items-center gap-0.5 px-4 py-2 rounded-2xl transition-all duration-200 ${
                   isActive
-                    ? 'text-primary-foreground bg-primary shadow-md'
-                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                    ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                <Icon size={22} />
+                <Icon size={20} />
                 <span className="text-xs font-medium">{item.label}</span>
               </Link>
             );
