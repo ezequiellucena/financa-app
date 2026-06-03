@@ -14,15 +14,13 @@ export const Route = createFileRoute("/")({
 
 import { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
-import { CadastrarGastoModal } from '../components/CadastrarGastoModal';
-import { Plus, Edit2, Check, X } from 'lucide-react';
+import { Edit2, Check, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { CurrencyInput } from '../components/CurrencyInput';
 import { formatDateTime } from '../utils/dateFormatters';
 
 function Dashboard() {
   const { despesasFixas, cartoes, gastosVariaveis, metas, salario, updateSalario } = useFinance();
-  const [modalOpen, setModalOpen] = useState(false);
   const [editingSalario, setEditingSalario] = useState(false);
   const [novoSalario, setNovoSalario] = useState(salario.toString());
 
@@ -249,16 +247,6 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Floating Action Button */}
-      <button
-        onClick={() => setModalOpen(true)}
-        className="fixed bottom-24 right-6 md:bottom-8 w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center z-20 hover:scale-110"
-        aria-label="Cadastrar Gasto"
-      >
-        <Plus size={28} />
-      </button>
-
-      <CadastrarGastoModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }

@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { FinanceProvider } from "../context/FinanceContext";
 import { MonthCarousel } from "../components/MonthCarousel";
+import { CadastrarGastoModal } from "../components/CadastrarGastoModal";
 import { Toaster } from "sonner";
 import {
   Home,
@@ -26,6 +27,7 @@ import {
   HelpCircle,
   Menu,
   X,
+  Plus,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -105,6 +107,7 @@ function AppLayout() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [cadastrarOpen, setCadastrarOpen] = useState(false);
 
   const navItems = [
     { path: '/', icon: Home, label: 'Início' },
@@ -124,6 +127,9 @@ function AppLayout() {
     { path: '/cartoes', icon: CreditCard, label: 'Cartões' },
     { path: '/gastos-variaveis', icon: DollarSign, label: 'Gastos' },
   ];
+
+  const leftNavItems = mainNavItems.slice(0, 2);
+  const rightNavItems = mainNavItems.slice(2, 4);
 
   return (
     <div className="flex flex-col h-screen bg-background">
@@ -202,27 +208,63 @@ function AppLayout() {
 
       {/* Bottom Navigation Mobile */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border px-4 py-2 z-10">
-        <div className="flex justify-around items-center max-w-lg mx-auto">
-          {mainNavItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex flex-col items-center gap-0.5 px-4 py-2 rounded-2xl transition-all duration-200 ${
-                  isActive
-                    ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <Icon size={20} />
-                <span className="text-xs font-medium">{item.label}</span>
-              </Link>
-            );
-          })}
+        <div className="relative flex justify-between items-center max-w-lg mx-auto">
+          <div className="flex flex-1 justify-around">
+            {leftNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 ${
+                    isActive
+                      ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Icon size={20} />
+                  <span className="text-xs font-medium">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Center Elevated Action Button */}
+          <button
+            onClick={() => setCadastrarOpen(true)}
+            aria-label="Cadastrar Gasto"
+            className="absolute left-1/2 -translate-x-1/2 -top-7 w-16 h-16 rounded-full flex flex-col items-center justify-center text-primary-foreground shadow-[var(--shadow-glow)] hover:scale-105 transition-all duration-200"
+            style={{ background: 'var(--gradient-header)' }}
+          >
+            <Plus size={26} strokeWidth={2.5} />
+            <span className="text-[10px] font-semibold leading-none mt-0.5">Gasto</span>
+          </button>
+
+          <div className="flex flex-1 justify-around">
+            {rightNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 ${
+                    isActive
+                      ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Icon size={20} />
+                  <span className="text-xs font-medium">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </nav>
+
+      <CadastrarGastoModal isOpen={cadastrarOpen} onClose={() => setCadastrarOpen(false)} />
     </div>
   );
 }
