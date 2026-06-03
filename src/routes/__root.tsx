@@ -118,7 +118,12 @@ function AppLayout() {
     { path: '/ajuda', icon: HelpCircle, label: 'Ajuda' },
   ];
 
-  const mainNavItems = navItems.slice(0, 4);
+  const mainNavItems = [
+    { path: '/', icon: Home, label: 'Início' },
+    { path: '/despesas-fixas', icon: CreditCard, label: 'Despesas' },
+    { path: '/cartoes', icon: CreditCard, label: 'Cartões' },
+    { path: '/gastos-variaveis', icon: DollarSign, label: 'Gastos' },
+  ];
 
   return (
     <div className="flex flex-col h-screen bg-background">
