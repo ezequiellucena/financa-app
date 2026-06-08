@@ -207,7 +207,7 @@ function AppLayout() {
       </main>
 
       {/* Bottom Navigation Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border px-4 py-2 z-10">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/40 backdrop-blur-2xl backdrop-saturate-150 border-t border-white/10 px-4 py-3 z-10">
         <div className="relative grid grid-cols-5 items-center max-w-lg mx-auto">
           {leftNavItems.map((item) => {
               const Icon = item.icon;
