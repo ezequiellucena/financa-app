@@ -21,6 +21,7 @@ import { Route as CartoesRouteImport } from './routes/cartoes'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RecuperarSenhaEnviadoRouteImport } from './routes/recuperar-senha.enviado'
 
 const VencimentosRoute = VencimentosRouteImport.update({
   id: '/vencimentos',
@@ -82,6 +83,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecuperarSenhaEnviadoRoute = RecuperarSenhaEnviadoRouteImport.update({
+  id: '/enviado',
+  path: '/enviado',
+  getParentRoute: () => RecuperarSenhaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -93,9 +99,10 @@ export interface FileRoutesByFullPath {
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
-  '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
+  '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -107,9 +114,10 @@ export interface FileRoutesByTo {
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
-  '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
+  '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -122,9 +130,10 @@ export interface FileRoutesById {
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
-  '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
+  '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
+    | '/recuperar-senha/enviado'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
+    | '/recuperar-senha/enviado'
   id:
     | '__root__'
     | '/'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
+    | '/recuperar-senha/enviado'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,7 +193,7 @@ export interface RootRouteChildren {
   GastosVariaveisRoute: typeof GastosVariaveisRoute
   LoginRoute: typeof LoginRoute
   PoupancaRoute: typeof PoupancaRoute
-  RecuperarSenhaRoute: typeof RecuperarSenhaRoute
+  RecuperarSenhaRoute: typeof RecuperarSenhaRouteWithChildren
   RelatoriosRoute: typeof RelatoriosRoute
   VencimentosRoute: typeof VencimentosRoute
 }
@@ -272,8 +284,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recuperar-senha/enviado': {
+      id: '/recuperar-senha/enviado'
+      path: '/enviado'
+      fullPath: '/recuperar-senha/enviado'
+      preLoaderRoute: typeof RecuperarSenhaEnviadoRouteImport
+      parentRoute: typeof RecuperarSenhaRoute
+    }
   }
 }
+
+interface RecuperarSenhaRouteChildren {
+  RecuperarSenhaEnviadoRoute: typeof RecuperarSenhaEnviadoRoute
+}
+
+const RecuperarSenhaRouteChildren: RecuperarSenhaRouteChildren = {
+  RecuperarSenhaEnviadoRoute: RecuperarSenhaEnviadoRoute,
+}
+
+const RecuperarSenhaRouteWithChildren = RecuperarSenhaRoute._addFileChildren(
+  RecuperarSenhaRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -285,7 +316,7 @@ const rootRouteChildren: RootRouteChildren = {
   GastosVariaveisRoute: GastosVariaveisRoute,
   LoginRoute: LoginRoute,
   PoupancaRoute: PoupancaRoute,
-  RecuperarSenhaRoute: RecuperarSenhaRoute,
+  RecuperarSenhaRoute: RecuperarSenhaRouteWithChildren,
   RelatoriosRoute: RelatoriosRoute,
   VencimentosRoute: VencimentosRoute,
 }
