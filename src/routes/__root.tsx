@@ -310,11 +310,22 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const isAuthRoute =
+    location.pathname === "/login" ||
+    location.pathname === "/cadastro" ||
+    location.pathname.startsWith("/recuperar-senha");
 
   return (
     <QueryClientProvider client={queryClient}>
       <FinanceProvider>
-        <AppLayout />
+        {isAuthRoute ? (
+          <div className="min-h-screen bg-background">
+            <Outlet />
+          </div>
+        ) : (
+          <AppLayout />
+        )}
         <Toaster position="top-center" richColors />
       </FinanceProvider>
     </QueryClientProvider>
