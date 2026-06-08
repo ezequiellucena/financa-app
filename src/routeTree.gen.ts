@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VencimentosRouteImport } from './routes/vencimentos'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as PoupancaRouteImport } from './routes/poupanca'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
 import { Route as DespesasFixasRouteImport } from './routes/despesas-fixas'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
@@ -32,6 +33,11 @@ const RelatoriosRoute = RelatoriosRouteImport.update({
 const PoupancaRoute = PoupancaRouteImport.update({
   id: '/poupanca',
   path: '/poupanca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GastosVariaveisRoute = GastosVariaveisRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
+    | '/login'
     | '/poupanca'
     | '/relatorios'
     | '/vencimentos'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
+    | '/login'
     | '/poupanca'
     | '/relatorios'
     | '/vencimentos'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
+    | '/login'
     | '/poupanca'
     | '/relatorios'
     | '/vencimentos'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   DespesasFixasRoute: typeof DespesasFixasRoute
   GastosVariaveisRoute: typeof GastosVariaveisRoute
+  LoginRoute: typeof LoginRoute
   PoupancaRoute: typeof PoupancaRoute
   RelatoriosRoute: typeof RelatoriosRoute
   VencimentosRoute: typeof VencimentosRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/poupanca'
       fullPath: '/poupanca'
       preLoaderRoute: typeof PoupancaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gastos-variaveis': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConfiguracoesRoute: ConfiguracoesRoute,
   DespesasFixasRoute: DespesasFixasRoute,
   GastosVariaveisRoute: GastosVariaveisRoute,
+  LoginRoute: LoginRoute,
   PoupancaRoute: PoupancaRoute,
   RelatoriosRoute: RelatoriosRoute,
   VencimentosRoute: VencimentosRoute,
@@ -229,3 +250,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
