@@ -44,7 +44,7 @@ function RecuperarSenhaForm() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigate({ to: "/recuperar-senha/enviado", search: { email } as never });
+      navigate({ to: "/recuperar-senha/enviado" });
     }, 900);
   };
 
