@@ -95,8 +95,8 @@
   --warning-foreground: oklch(0.16 0.02 285);
   --info: oklch(0.65 0.18 250);
   --info-foreground: oklch(0.10 0.02 285);
-  --gradient-header: linear-gradient(135deg, oklch(0.62 0.24 300), oklch(0.72 0.22 320) 60%, oklch(0.78 0.20 340));
-  --shadow-glow: 0 10px 40px -10px oklch(0.62 0.24 300 / 0.5);
+  --gradient-header: linear-gradient(135deg, oklch(0.65 0.26 305) 0%, oklch(0.55 0.27 305) 55%, oklch(0.40 0.22 300) 100%);
+  --shadow-glow: 0 10px 40px -10px oklch(0.62 0.27 305 / 0.6);
 }
 
 @layer base {
