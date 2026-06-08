@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VencimentosRouteImport } from './routes/vencimentos'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as PoupancaRouteImport } from './routes/poupanca'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
@@ -29,6 +30,11 @@ const VencimentosRoute = VencimentosRouteImport.update({
 const RelatoriosRoute = RelatoriosRouteImport.update({
   id: '/relatorios',
   path: '/relatorios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PoupancaRoute = PoupancaRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/gastos-variaveis'
     | '/login'
     | '/poupanca'
+    | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/gastos-variaveis'
     | '/login'
     | '/poupanca'
+    | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/gastos-variaveis'
     | '/login'
     | '/poupanca'
+    | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   GastosVariaveisRoute: typeof GastosVariaveisRoute
   LoginRoute: typeof LoginRoute
   PoupancaRoute: typeof PoupancaRoute
+  RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   RelatoriosRoute: typeof RelatoriosRoute
   VencimentosRoute: typeof VencimentosRoute
 }
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/relatorios'
       fullPath: '/relatorios'
       preLoaderRoute: typeof RelatoriosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/poupanca': {
@@ -265,6 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   GastosVariaveisRoute: GastosVariaveisRoute,
   LoginRoute: LoginRoute,
   PoupancaRoute: PoupancaRoute,
+  RecuperarSenhaRoute: RecuperarSenhaRoute,
   RelatoriosRoute: RelatoriosRoute,
   VencimentosRoute: VencimentosRoute,
 }
