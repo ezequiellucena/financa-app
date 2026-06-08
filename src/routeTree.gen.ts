@@ -11,13 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VencimentosRouteImport } from './routes/vencimentos'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as PoupancaRouteImport } from './routes/poupanca'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
 import { Route as DespesasFixasRouteImport } from './routes/despesas-fixas'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CartoesRouteImport } from './routes/cartoes'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RecuperarSenhaEnviadoRouteImport } from './routes/recuperar-senha.enviado'
 
 const VencimentosRoute = VencimentosRouteImport.update({
   id: '/vencimentos',
@@ -29,9 +33,19 @@ const RelatoriosRoute = RelatoriosRouteImport.update({
   path: '/relatorios',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PoupancaRoute = PoupancaRouteImport.update({
   id: '/poupanca',
   path: '/poupanca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GastosVariaveisRoute = GastosVariaveisRouteImport.update({
@@ -54,6 +68,11 @@ const CartoesRoute = CartoesRouteImport.update({
   path: '/cartoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AjudaRoute = AjudaRouteImport.update({
   id: '/ajuda',
   path: '/ajuda',
@@ -64,85 +83,117 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecuperarSenhaEnviadoRoute = RecuperarSenhaEnviadoRouteImport.update({
+  id: '/enviado',
+  path: '/enviado',
+  getParentRoute: () => RecuperarSenhaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ajuda': typeof AjudaRoute
+  '/cadastro': typeof CadastroRoute
   '/cartoes': typeof CartoesRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
+  '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ajuda': typeof AjudaRoute
+  '/cadastro': typeof CadastroRoute
   '/cartoes': typeof CartoesRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
+  '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ajuda': typeof AjudaRoute
+  '/cadastro': typeof CadastroRoute
   '/cartoes': typeof CartoesRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
+  '/login': typeof LoginRoute
   '/poupanca': typeof PoupancaRoute
+  '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
   '/vencimentos': typeof VencimentosRoute
+  '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/ajuda'
+    | '/cadastro'
     | '/cartoes'
     | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
+    | '/login'
     | '/poupanca'
+    | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
+    | '/recuperar-senha/enviado'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/ajuda'
+    | '/cadastro'
     | '/cartoes'
     | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
+    | '/login'
     | '/poupanca'
+    | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
+    | '/recuperar-senha/enviado'
   id:
     | '__root__'
     | '/'
     | '/ajuda'
+    | '/cadastro'
     | '/cartoes'
     | '/configuracoes'
     | '/despesas-fixas'
     | '/gastos-variaveis'
+    | '/login'
     | '/poupanca'
+    | '/recuperar-senha'
     | '/relatorios'
     | '/vencimentos'
+    | '/recuperar-senha/enviado'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AjudaRoute: typeof AjudaRoute
+  CadastroRoute: typeof CadastroRoute
   CartoesRoute: typeof CartoesRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   DespesasFixasRoute: typeof DespesasFixasRoute
   GastosVariaveisRoute: typeof GastosVariaveisRoute
+  LoginRoute: typeof LoginRoute
   PoupancaRoute: typeof PoupancaRoute
+  RecuperarSenhaRoute: typeof RecuperarSenhaRouteWithChildren
   RelatoriosRoute: typeof RelatoriosRoute
   VencimentosRoute: typeof VencimentosRoute
 }
@@ -163,11 +214,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RelatoriosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/poupanca': {
       id: '/poupanca'
       path: '/poupanca'
       fullPath: '/poupanca'
       preLoaderRoute: typeof PoupancaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gastos-variaveis': {
@@ -198,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartoesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ajuda': {
       id: '/ajuda'
       path: '/ajuda'
@@ -212,17 +284,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recuperar-senha/enviado': {
+      id: '/recuperar-senha/enviado'
+      path: '/enviado'
+      fullPath: '/recuperar-senha/enviado'
+      preLoaderRoute: typeof RecuperarSenhaEnviadoRouteImport
+      parentRoute: typeof RecuperarSenhaRoute
+    }
   }
 }
+
+interface RecuperarSenhaRouteChildren {
+  RecuperarSenhaEnviadoRoute: typeof RecuperarSenhaEnviadoRoute
+}
+
+const RecuperarSenhaRouteChildren: RecuperarSenhaRouteChildren = {
+  RecuperarSenhaEnviadoRoute: RecuperarSenhaEnviadoRoute,
+}
+
+const RecuperarSenhaRouteWithChildren = RecuperarSenhaRoute._addFileChildren(
+  RecuperarSenhaRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AjudaRoute: AjudaRoute,
+  CadastroRoute: CadastroRoute,
   CartoesRoute: CartoesRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   DespesasFixasRoute: DespesasFixasRoute,
   GastosVariaveisRoute: GastosVariaveisRoute,
+  LoginRoute: LoginRoute,
   PoupancaRoute: PoupancaRoute,
+  RecuperarSenhaRoute: RecuperarSenhaRouteWithChildren,
   RelatoriosRoute: RelatoriosRoute,
   VencimentosRoute: VencimentosRoute,
 }
