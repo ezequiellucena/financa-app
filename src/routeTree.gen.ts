@@ -17,6 +17,7 @@ import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
 import { Route as DespesasFixasRouteImport } from './routes/despesas-fixas'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as CartoesRouteImport } from './routes/cartoes'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as AjudaRouteImport } from './routes/ajuda'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -60,6 +61,11 @@ const CartoesRoute = CartoesRouteImport.update({
   path: '/cartoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AjudaRoute = AjudaRouteImport.update({
   id: '/ajuda',
   path: '/ajuda',
@@ -74,6 +80,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ajuda': typeof AjudaRoute
+  '/cadastro': typeof CadastroRoute
   '/cartoes': typeof CartoesRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ajuda': typeof AjudaRoute
+  '/cadastro': typeof CadastroRoute
   '/cartoes': typeof CartoesRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ajuda': typeof AjudaRoute
+  '/cadastro': typeof CadastroRoute
   '/cartoes': typeof CartoesRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/despesas-fixas': typeof DespesasFixasRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/ajuda'
+    | '/cadastro'
     | '/cartoes'
     | '/configuracoes'
     | '/despesas-fixas'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/ajuda'
+    | '/cadastro'
     | '/cartoes'
     | '/configuracoes'
     | '/despesas-fixas'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/ajuda'
+    | '/cadastro'
     | '/cartoes'
     | '/configuracoes'
     | '/despesas-fixas'
@@ -150,6 +162,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AjudaRoute: typeof AjudaRoute
+  CadastroRoute: typeof CadastroRoute
   CartoesRoute: typeof CartoesRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   DespesasFixasRoute: typeof DespesasFixasRoute
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartoesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ajuda': {
       id: '/ajuda'
       path: '/ajuda'
@@ -238,6 +258,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AjudaRoute: AjudaRoute,
+  CadastroRoute: CadastroRoute,
   CartoesRoute: CartoesRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   DespesasFixasRoute: DespesasFixasRoute,
