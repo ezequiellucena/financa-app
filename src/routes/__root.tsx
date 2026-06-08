@@ -207,17 +207,16 @@ function AppLayout() {
       </main>
 
       {/* Bottom Navigation Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border px-6 py-2 z-10">
-        <div className="relative flex justify-between items-center max-w-lg mx-auto">
-          <div className="flex flex-1 justify-center gap-6">
-            {leftNavItems.map((item) => {
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border px-4 py-2 z-10">
+        <div className="relative grid grid-cols-5 items-center max-w-lg mx-auto">
+          {leftNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 ${
+                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 justify-self-center ${
                     isActive
                       ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
                       : 'text-muted-foreground hover:text-foreground'
@@ -228,7 +227,9 @@ function AppLayout() {
                 </Link>
               );
             })}
-          </div>
+
+          {/* Spacer for center elevated button */}
+          <div aria-hidden="true" />
 
           {/* Center Elevated Action Button */}
           <button
@@ -241,15 +242,14 @@ function AppLayout() {
             <span className="text-[10px] font-semibold leading-none mt-0.5">Gasto</span>
           </button>
 
-          <div className="flex flex-1 justify-center gap-6">
-            {rightNavItems.map((item) => {
+          {rightNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 ${
+                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 justify-self-center ${
                     isActive
                       ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
                       : 'text-muted-foreground hover:text-foreground'
@@ -260,7 +260,6 @@ function AppLayout() {
                 </Link>
               );
             })}
-          </div>
         </div>
       </nav>
 
