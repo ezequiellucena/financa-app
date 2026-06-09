@@ -45,7 +45,7 @@ export function MonthCarousel({ pageTitle }: MonthCarouselProps) {
 
   return (
     <div
-      className="relative px-4 pt-6 pb-10 text-white rounded-b-[2.5rem] overflow-hidden"
+      className="relative px-4 pt-6 pb-10 text-white rounded-b-2xl overflow-hidden"
       style={{ background: 'var(--gradient-header)' }}
     >
       <div className="max-w-lg mx-auto">
