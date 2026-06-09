@@ -87,7 +87,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 const pageTitles: Record<string, string> = {
-  '/': 'Dashboard',
+  '/': 'Minhas finanças',
   '/despesas-fixas': 'Despesas Fixas',
   '/cartoes': 'Cartões',
   '/poupanca': 'Poupança',
