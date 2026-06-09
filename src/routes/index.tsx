@@ -3,9 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Dashboard - Finanças" },
+      { title: "Minhas finanças - FinançasApp" },
       { name: "description", content: "Dashboard do controle financeiro" },
-      { property: "og:title", content: "Dashboard - Finanças" },
+      { property: "og:title", content: "Minhas finanças - FinançasApp" },
       { property: "og:description", content: "Dashboard do controle financeiro" },
     ],
   }),
