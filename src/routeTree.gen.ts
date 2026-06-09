@@ -13,6 +13,7 @@ import { Route as VencimentosRouteImport } from './routes/vencimentos'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as PoupancaRouteImport } from './routes/poupanca'
+import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as GastosVariaveisRouteImport } from './routes/gastos-variaveis'
 import { Route as DespesasFixasRouteImport } from './routes/despesas-fixas'
@@ -41,6 +42,11 @@ const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
 const PoupancaRoute = PoupancaRouteImport.update({
   id: '/poupanca',
   path: '/poupanca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
+  '/perfil': typeof PerfilRoute
   '/poupanca': typeof PoupancaRoute
   '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
+  '/perfil': typeof PerfilRoute
   '/poupanca': typeof PoupancaRoute
   '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/despesas-fixas': typeof DespesasFixasRoute
   '/gastos-variaveis': typeof GastosVariaveisRoute
   '/login': typeof LoginRoute
+  '/perfil': typeof PerfilRoute
   '/poupanca': typeof PoupancaRoute
   '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/despesas-fixas'
     | '/gastos-variaveis'
     | '/login'
+    | '/perfil'
     | '/poupanca'
     | '/recuperar-senha'
     | '/relatorios'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/despesas-fixas'
     | '/gastos-variaveis'
     | '/login'
+    | '/perfil'
     | '/poupanca'
     | '/recuperar-senha'
     | '/relatorios'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/despesas-fixas'
     | '/gastos-variaveis'
     | '/login'
+    | '/perfil'
     | '/poupanca'
     | '/recuperar-senha'
     | '/relatorios'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   DespesasFixasRoute: typeof DespesasFixasRoute
   GastosVariaveisRoute: typeof GastosVariaveisRoute
   LoginRoute: typeof LoginRoute
+  PerfilRoute: typeof PerfilRoute
   PoupancaRoute: typeof PoupancaRoute
   RecuperarSenhaRoute: typeof RecuperarSenhaRouteWithChildren
   RelatoriosRoute: typeof RelatoriosRoute
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/poupanca'
       fullPath: '/poupanca'
       preLoaderRoute: typeof PoupancaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -315,6 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   DespesasFixasRoute: DespesasFixasRoute,
   GastosVariaveisRoute: GastosVariaveisRoute,
   LoginRoute: LoginRoute,
+  PerfilRoute: PerfilRoute,
   PoupancaRoute: PoupancaRoute,
   RecuperarSenhaRoute: RecuperarSenhaRouteWithChildren,
   RelatoriosRoute: RelatoriosRoute,
