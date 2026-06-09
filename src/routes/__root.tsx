@@ -20,12 +20,7 @@ import { Toaster } from "sonner";
 import {
   Home,
   CreditCard,
-  PiggyBank,
   DollarSign,
-  BarChart3,
-  CalendarClock,
-  Settings,
-  HelpCircle,
   Menu,
   Plus,
 } from "lucide-react";
