@@ -7,6 +7,8 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const schema = z.object({
   email: z.string().trim().email("E-mail inválido").max(255),
@@ -33,7 +35,7 @@ function RecuperarSenhaForm() {
   const [error, setError] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse({ email });
     if (!result.success) {
@@ -42,10 +44,15 @@ function RecuperarSenhaForm() {
     }
     setError(undefined);
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate({ to: "/recuperar-senha/enviado" });
-    }, 900);
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (err) {
+      toast.error(err.message);
+      return;
+    }
+    navigate({ to: "/recuperar-senha/enviado" });
   };
 
   return (

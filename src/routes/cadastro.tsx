@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z
   .object({
@@ -66,7 +67,7 @@ function CadastroPage() {
     "bg-success",
   ][passwordStrength];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse({ name, email, password, confirm, terms });
     if (!result.success) {
@@ -80,11 +81,23 @@ function CadastroPage() {
     }
     setErrors({});
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Conta criada com sucesso!");
-      navigate({ to: "/login" });
-    }, 900);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+        data: { name },
+      },
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(
+        error.message.includes("already") ? "Este e-mail já está cadastrado" : error.message
+      );
+      return;
+    }
+    toast.success("Conta criada! Verifique seu e-mail para confirmar.");
+    navigate({ to: "/login" });
   };
 
   return (
