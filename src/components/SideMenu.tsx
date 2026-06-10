@@ -26,6 +26,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 
 interface SideMenuProps {
   open: boolean;
@@ -47,10 +49,14 @@ const navItems = [
 
 export function SideMenu({ open, onClose, user }: SideMenuProps) {
   const location = useLocation();
+  const { user: authUser } = useAuth();
   const displayUser = user ?? {
-    name: "Usuário",
-    email: "usuario@exemplo.com",
-    avatarUrl: undefined,
+    name:
+      (authUser?.user_metadata?.name as string | undefined) ??
+      authUser?.email?.split("@")[0] ??
+      "Usuário",
+    email: authUser?.email ?? "",
+    avatarUrl: authUser?.user_metadata?.avatar_url as string | undefined,
   };
 
   useEffect(() => {
@@ -66,9 +72,9 @@ export function SideMenu({ open, onClose, user }: SideMenuProps) {
     };
   }, [open, onClose]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     onClose();
-    // Visual only — redirect to login screen
+    await supabase.auth.signOut();
     window.location.href = "/login";
   };
 

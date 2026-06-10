@@ -17,6 +17,8 @@ import { MonthCarousel } from "../components/MonthCarousel";
 import { CadastrarGastoModal } from "../components/CadastrarGastoModal";
 import { SideMenu } from "../components/SideMenu";
 import { Toaster } from "sonner";
+import { AuthProvider, useAuth } from "../hooks/use-auth";
+import { useNavigate } from "@tanstack/react-router";
 import {
   Home,
   CreditCard,
@@ -248,21 +250,47 @@ function RootComponent() {
   const isAuthRoute =
     location.pathname === "/login" ||
     location.pathname === "/cadastro" ||
-    location.pathname.startsWith("/recuperar-senha");
+    location.pathname.startsWith("/recuperar-senha") ||
+    location.pathname === "/reset-password";
 
   return (
     <QueryClientProvider client={queryClient}>
-      <FinanceProvider>
-        {isAuthRoute ? (
-          <div className="min-h-screen bg-background">
-            <Outlet />
-          </div>
-        ) : (
-          <AppLayout />
-        )}
-        <Toaster position="top-center" richColors />
-      </FinanceProvider>
+      <AuthProvider>
+        <FinanceProvider>
+          {isAuthRoute ? (
+            <div className="min-h-screen bg-background">
+              <Outlet />
+            </div>
+          ) : (
+            <AuthGate>
+              <AppLayout />
+            </AuthGate>
+          )}
+          <Toaster position="top-center" richColors />
+        </FinanceProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
+}
+
+function AuthGate({ children }: { children: ReactNode }) {
+  const { session, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !session) {
+      navigate({ to: "/login", replace: true });
+    }
+  }, [session, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-sm text-muted-foreground">Carregando...</div>
+      </div>
+    );
+  }
+  if (!session) return null;
+  return <>{children}</>;
 }
 
