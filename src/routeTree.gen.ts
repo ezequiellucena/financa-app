@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VencimentosRouteImport } from './routes/vencimentos'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as PoupancaRouteImport } from './routes/poupanca'
@@ -27,6 +28,11 @@ import { Route as RecuperarSenhaEnviadoRouteImport } from './routes/recuperar-se
 const VencimentosRoute = VencimentosRouteImport.update({
   id: '/vencimentos',
   path: '/vencimentos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RelatoriosRoute = RelatoriosRouteImport.update({
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/poupanca': typeof PoupancaRoute
   '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/vencimentos': typeof VencimentosRoute
   '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/poupanca': typeof PoupancaRoute
   '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/vencimentos': typeof VencimentosRoute
   '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/poupanca': typeof PoupancaRoute
   '/recuperar-senha': typeof RecuperarSenhaRouteWithChildren
   '/relatorios': typeof RelatoriosRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/vencimentos': typeof VencimentosRoute
   '/recuperar-senha/enviado': typeof RecuperarSenhaEnviadoRoute
 }
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/poupanca'
     | '/recuperar-senha'
     | '/relatorios'
+    | '/reset-password'
     | '/vencimentos'
     | '/recuperar-senha/enviado'
   fileRoutesByTo: FileRoutesByTo
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/poupanca'
     | '/recuperar-senha'
     | '/relatorios'
+    | '/reset-password'
     | '/vencimentos'
     | '/recuperar-senha/enviado'
   id:
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/poupanca'
     | '/recuperar-senha'
     | '/relatorios'
+    | '/reset-password'
     | '/vencimentos'
     | '/recuperar-senha/enviado'
   fileRoutesById: FileRoutesById
@@ -208,6 +220,7 @@ export interface RootRouteChildren {
   PoupancaRoute: typeof PoupancaRoute
   RecuperarSenhaRoute: typeof RecuperarSenhaRouteWithChildren
   RelatoriosRoute: typeof RelatoriosRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   VencimentosRoute: typeof VencimentosRoute
 }
 
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       path: '/vencimentos'
       fullPath: '/vencimentos'
       preLoaderRoute: typeof VencimentosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/relatorios': {
@@ -339,18 +359,9 @@ const rootRouteChildren: RootRouteChildren = {
   PoupancaRoute: PoupancaRoute,
   RecuperarSenhaRoute: RecuperarSenhaRouteWithChildren,
   RelatoriosRoute: RelatoriosRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   VencimentosRoute: VencimentosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

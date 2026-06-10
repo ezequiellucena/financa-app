@@ -8,6 +8,8 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 
 const schema = z.object({
   email: z.string().trim().email("E-mail inválido").max(255),
@@ -29,7 +31,7 @@ function LoginPage() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = schema.safeParse({ email, password });
     if (!result.success) {
@@ -42,11 +44,26 @@ function LoginPage() {
     }
     setErrors({});
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Login realizado com sucesso!");
-      navigate({ to: "/" });
-    }, 900);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message === "Invalid login credentials" ? "E-mail ou senha inválidos" : error.message);
+      return;
+    }
+    toast.success("Login realizado com sucesso!");
+    navigate({ to: "/" });
+  };
+
+  const handleGoogle = async () => {
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (result.error) {
+      toast.error("Falha ao entrar com Google");
+      return;
+    }
+    if (result.redirected) return;
+    navigate({ to: "/" });
   };
 
   return (
@@ -132,6 +149,18 @@ function LoginPage() {
             <span className="bg-card px-2 text-muted-foreground">ou</span>
           </div>
         </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleGoogle}
+          className="w-full h-11 gap-2"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.66 4.1-5.5 4.1-3.31 0-6-2.74-6-6.2s2.69-6.2 6-6.2c1.88 0 3.14.8 3.86 1.49l2.63-2.54C16.85 3.16 14.66 2.2 12 2.2 6.92 2.2 2.8 6.32 2.8 11.4S6.92 20.6 12 20.6c6.93 0 9.2-4.86 9.2-7.4 0-.5-.05-.88-.12-1.26H12z"/>
+          </svg>
+          Continuar com Google
+        </Button>
 
         <div className="text-center space-y-3">
           <p className="text-sm text-muted-foreground">Ainda não possui cadastro?</p>
