@@ -188,7 +188,7 @@ function AppLayout() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-2xl transition-all duration-200 justify-self-center ${
+                  className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-full transition-all duration-200 justify-self-center ${
                     isActive
                       ? 'text-primary-foreground bg-primary shadow-[var(--shadow-glow)]'
                       : 'text-muted-foreground hover:text-foreground'
