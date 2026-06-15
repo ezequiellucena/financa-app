@@ -136,7 +136,7 @@ function AppLayout() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto pb-32">
         <div className="p-4 max-w-5xl mx-auto">
           <Outlet />
         </div>
