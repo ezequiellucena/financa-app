@@ -49,14 +49,18 @@ const navItems = [
 
 export function SideMenu({ open, onClose, user }: SideMenuProps) {
   const location = useLocation();
-  const { user: authUser } = useAuth();
+  const { user: authUser, profile } = useAuth();
   const displayUser = user ?? {
     name:
-      (authUser?.user_metadata?.name as string | undefined) ??
-      authUser?.email?.split("@")[0] ??
+      profile?.apelido?.trim() ||
+      profile?.nome?.trim() ||
+      (authUser?.user_metadata?.name as string | undefined) ||
+      authUser?.email?.split("@")[0] ||
       "Usuário",
-    email: authUser?.email ?? "",
-    avatarUrl: authUser?.user_metadata?.avatar_url as string | undefined,
+    email: profile?.email ?? authUser?.email ?? "",
+    avatarUrl:
+      profile?.avatar_url ??
+      (authUser?.user_metadata?.avatar_url as string | undefined),
   };
 
   useEffect(() => {
