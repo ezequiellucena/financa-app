@@ -142,9 +142,12 @@ function AppLayout() {
         </div>
       </main>
 
-      {/* Bottom Navigation Mobile */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card/40 backdrop-blur-2xl backdrop-saturate-150 border-t border-white/10 px-4 py-3 z-10">
-        <div className="relative grid grid-cols-5 items-center max-w-lg mx-auto">
+      {/* Floating Bottom Navigation (iOS style) */}
+      <nav
+        className="fixed left-4 right-4 z-10 bg-card/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/15 rounded-full px-4 py-3 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)] max-w-lg mx-auto"
+        style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}
+      >
+        <div className="relative grid grid-cols-5 items-center">
           {leftNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
